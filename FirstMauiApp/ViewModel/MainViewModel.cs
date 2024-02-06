@@ -12,9 +12,11 @@ namespace FirstMauiApp.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-        public MainViewModel()
+        IConnectivity _connectivity;
+        public MainViewModel(IConnectivity connectivity)
         {
             Items = new ObservableCollection<string>();
+            _connectivity = connectivity;
         }
 
         [ObservableProperty]
@@ -24,11 +26,17 @@ namespace FirstMauiApp.ViewModel
         string text;
 
         [RelayCommand]
-        void Add()
+        async void Add()
         {
             if(string.IsNullOrEmpty(Text))
             {
                 return; 
+            }
+
+            if(_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert("Oh!", "No Internet", "OK");
+                return;
             }
 
             Items.Add(Text);
