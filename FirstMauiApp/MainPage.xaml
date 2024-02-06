@@ -26,7 +26,9 @@
                 Grid.Row="1"
                 Grid.Column="1"></Button>
 
-        <CollectionView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Items}">
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2" 
+                        ItemsSource="{Binding Items}"
+                        SelectionMode="None">
             
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type x:String}">
@@ -42,6 +44,11 @@
                         </SwipeView.RightItems>
                         <Grid Padding="0.5">
                             <Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
+                                                          CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
                                 <Label Text="{Binding .}"
                                    FontSize="24">                                    
                                 </Label>
